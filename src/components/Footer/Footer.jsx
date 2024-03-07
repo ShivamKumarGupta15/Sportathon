@@ -5,10 +5,10 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="row">
-          <div className="col-md-6">
-            <h3>About Us</h3>
-            <p>We're here to provide our customers with the highest quality of service.
+        <div className="rows">
+          <div className="col-md-7">
+            <h3 className='Abh3'>About Us</h3>
+            <p className='about-text'>We're here to provide our customers with the highest quality of service.
       With our dedication to customer satisfaction, you can rest assured that
       you will have a great experience.</p>
           </div>

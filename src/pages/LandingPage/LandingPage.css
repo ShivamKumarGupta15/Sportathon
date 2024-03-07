@@ -7,7 +7,7 @@
     padding: 0 2rem;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
-    background-image: url('../../Assets/pexels-robo-michalec-12266719.jpg');
+    background-image: url('https://images.pexels.com/photos/3684122/pexels-photo-3684122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
     background-size: cover;
     background-position: center;
     opacity: 0.70;
@@ -75,7 +75,7 @@
         width: 9em;
        }
    */
-
+/* 
    @media (max-width: 768px) {
     .landing-page {
       height: auto;
@@ -89,4 +89,4 @@
     .landing-page p {
       font-size: 1rem;
     }
-  }  
+  }   */

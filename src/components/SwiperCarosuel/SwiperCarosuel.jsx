@@ -1,29 +1,28 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import './Carosuel.css';
+import './SwiperCarosuel.css';
 import React,{ useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Services from "../OurServices/Services";
+ 
 
 
-const Carosuel = () => {
 
-  const [selectedSport, setSelectedSport] = useState(null);
-  const navigate = useNavigate(); 
+const SwiperCarosuel = () => {
+
+ 
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 3, 
+    speed: 300,
+    slidesToShow: 2, 
     slidesToScroll: 1,
     autoplay: true,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
           slidesToScroll: 3,
           infinite: true,
           dots: true
@@ -32,7 +31,7 @@ const Carosuel = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 2,
           initialSlide: 2
         }
@@ -46,33 +45,29 @@ const Carosuel = () => {
       }
     ]
   };
-  const handleClick=(sports)=>{
-    console.log("sports",sports)
-    setSelectedSport(sports);
-    navigate(`/form/${sports}`); 
-  }
+
+  
   
   return (
     <div >
-    <div className="container2">
-      <div className='carousel-wrapper'>
+   
+    <div className="container-swiper">
+      <div className='carousel-wrapper-swiper'>
         <Slider {...settings}>
           {data.map((d, index) => (
-            <div key={index} className='carousel-item'>
-              <div className='image-wrapper'>
-                <img src={d.img} alt="" className="carousel-image"  onClick={()=>handleClick(d.name)} />
+            <div key={index} className='carousel-item-swiper'>
+              <div className='image-wrapper-swiper'>
+                <img src={d.img} alt="" className="carousel-image-swiper"   />
               </div>
               <div className='content-wrapper'>
-                <p className="name">{d.name}</p>
-                <p className="review">{d.review}</p>
-                <button className='read-more' onClick={()=>handleClick(d.name)}  > Participate</button>
+                
               </div>
             </div>
           ))}
         </Slider>
       </div>
       </div>
-      {/* <Services /> */}
+   
      
     </div>
     
@@ -97,7 +92,7 @@ const data = [
   },
   {
     name: `tennis`,
-    img: `https://images.pexels.com/photos/3207474/pexels-photo-3207474.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: `https://images.pexels.com/photos/5739122/pexels-photo-5739122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
     review: `13 March 2024`
   },
   {
@@ -107,9 +102,9 @@ const data = [
   },
   {
     name: `tabletennis`,
-    img: `https://images.pexels.com/photos/18511482/pexels-photo-18511482/free-photo-of-ping-pong-ball-and-rackets.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: `https://images.pexels.com/photos/15534877/pexels-photo-15534877/free-photo-of-men-playing-table-tennis.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
     review: `15 march 2024`
   },
 ];
 
-export default Carosuel;
+export default SwiperCarosuel;
