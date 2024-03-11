@@ -30,7 +30,7 @@
      font-size: clamp(1.2rem, 5vw, 4rem);
   /* line-height: 5rem; */
   max-width: 600px;
-  animation: blink 3s linear infinite;
+  /* animation: blink 3s linear infinite; */
 
     
  

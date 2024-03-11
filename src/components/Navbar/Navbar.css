@@ -16,7 +16,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-100%);
+    transform: translateX(50%);
   }
 }
 .logo {
@@ -25,9 +25,9 @@
   margin-right: 0.5vw;
  
 }
-.navbar-left{
-  animation: 5s slide infinite linear;
-}
+/* .navbar-left{
+  animation: 1s slide infinite linear;
+} */
  .ttt{
   width: 100px;
 }
@@ -37,6 +37,7 @@
   font-weight: bold;
   color: #1a1a1b;
   text-decoration: none;
+  /* animation: 1s slide infinite linear; */
 }
 .s{
 font-family:cursive
