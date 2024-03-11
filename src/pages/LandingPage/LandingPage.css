@@ -7,7 +7,7 @@
     padding: 0 2rem;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
-    background-image: url('https://images.pexels.com/photos/3684122/pexels-photo-3684122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-image: url('https://images.pexels.com/photos/3651672/pexels-photo-3651672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
     background-size: cover;
     background-position: center;
     opacity: 0.70;
@@ -15,7 +15,11 @@
   justify-content: center;
   align-items: flex-start;
   }
-
+@keyframes blink {
+  50% {
+    opacity:0
+  }
+}
   
   .landing-page h1 {
     margin-top: -8rem;
@@ -26,6 +30,8 @@
      font-size: clamp(1.2rem, 5vw, 4rem);
   /* line-height: 5rem; */
   max-width: 600px;
+  animation: blink 3s linear infinite;
+
     
  
   }
@@ -38,7 +44,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       font-size: clamp(1rem, 3vw, 1.5rem);
   max-width: 500px;
-
+  animation: blink 3s linear infinite;
   margin: 1.5rem 0rem;
   }
 /*   

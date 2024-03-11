@@ -46,11 +46,18 @@ const Carosuel = () => {
       }
     ]
   };
-  const handleClick=(sports)=>{
-    console.log("sports",sports)
-    setSelectedSport(sports);
-    navigate(`/form/${sports}`); 
-  }
+  const handleClick = (sports) => {
+    console.log("sports", sports);
+    if (sports === "chess" || sports === "tabletennis" || sports === "tennis") {
+
+      console.log("Logging sport:", sports);
+      
+    } else {
+      // Navigate to form for other sports
+      setSelectedSport(sports);
+      navigate(`/form/${sports}`);
+    }
+  };
   
   return (
     <div >

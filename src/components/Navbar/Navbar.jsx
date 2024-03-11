@@ -3,7 +3,9 @@ import './Navbar.css'; // Import CSS file for styling
 import sports from '../../Assets/sports.png'; 
 import { Link, NavLink , useNavigate} from 'react-router-dom';
 import { useState } from 'react';
+import football from "../../Assets/football.png"
 import SignUp from '../../pages/SignUp/SignUp';
+import logo from "../../Assets/logo5.png"
 
 
 const Navbar = () => {
@@ -25,8 +27,8 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img src={sports} alt="Sportathon Logo" className="logo" />
-        <Link  to="/"  className="brand" >Sportathon</Link>
+        <img src={logo} alt="Sportathon Logo" className="logo" />
+        <Link  to="/"  className="brand" > Sportath⚽️n</Link>
       </div>
       {/* <div className="navbar-right">
         <button className="btn">Login</button>
