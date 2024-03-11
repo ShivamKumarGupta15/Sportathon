@@ -273,7 +273,13 @@ validationSchema = Yup.object().shape(commonSchema);
         {modal && (
         <div className="modal-container">
           <div className="modal-content">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus commodi id voluptate quod eius minus, nemo odit doloribus cumque corporis quasi maxime, accusantium facilis exercitationem natus dicta aut asperiores consectetur!</p>
+          <h3>Rules</h3>
+          <ol>
+            <li>You can participate in maximum two individual/team sports.</li>
+            <li> Every team sport should have a minimum of one female participation.
+</li>
+            <li> Every team sport should have a maximum of five members</li>
+          </ol>
             
             <button onClick={handleModal} className="modal-btn">
               X

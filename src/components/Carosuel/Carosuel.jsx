@@ -5,6 +5,8 @@ import './Carosuel.css';
 import React,{ useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Services from "../OurServices/Services";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Carosuel = () => {
@@ -51,7 +53,10 @@ const Carosuel = () => {
     if (sports === "chess" || sports === "tabletennis" || sports === "tennis") {
 
       console.log("Logging sport:", sports);
-      
+      toast.success('Registeration successful!', {
+        position: "top-center",
+          autoClose: 3000,
+      })
     } else {
       // Navigate to form for other sports
       setSelectedSport(sports);
@@ -74,10 +79,12 @@ const Carosuel = () => {
                 <p className="review">{d.review}</p>
                 <button className='read-more' onClick={()=>handleClick(d.name)}  > Participate</button>
               </div>
+             
             </div>
           ))}
         </Slider>
       </div>
+      <ToastContainer />
       </div>
       {/* <Services /> */}
      
