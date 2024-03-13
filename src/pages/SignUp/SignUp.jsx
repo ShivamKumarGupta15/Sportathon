@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SignUp.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 
@@ -16,7 +16,7 @@ const SignUp = () => {
   const [mobile, setMobile] = useState('');
   const [sapId, setSapId] = useState('');
   const [gender, setGender] = useState('');
- 
+  const navigate = useNavigate()
  
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -95,7 +95,7 @@ const SignUp = () => {
         .then((response) => {
           if (!response.ok) {
             // throw new Error('Error occurred during signup.');
-            toast.error('Error occurred!', {
+            toast.error('User Already Exist', {
              position: "top-center",
               autoClose: 3000,
           })
@@ -105,7 +105,9 @@ const SignUp = () => {
             toast.success('Registration successful!', {
             position: "top-center",
               autoClose: 3000,
-          })
+          }
+          )
+          navigate("/Login")
         }
           // Handle successful response
           // e.g., show success message, redirect to another page, etc.

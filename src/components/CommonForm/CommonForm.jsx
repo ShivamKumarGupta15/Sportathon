@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import './CommonForm.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import * as Yup from "yup"
 const CommonForm = () => {
     const { sport } = useParams();
@@ -23,6 +26,8 @@ const CommonForm = () => {
 
     const [errors, setErrors] = useState({})
     const handleSubmit = async (e) => {
+
+
         e.preventDefault();
         console.log("Errors:", errors);
         if (!memberDetails) {
@@ -37,6 +42,7 @@ const CommonForm = () => {
             const finalvalue = { ...formData, sport }
             console.log("Form Submitted", finalvalue);
             setErrors({})
+
         } catch (error) {
             const newErrors = {};
 
@@ -47,6 +53,83 @@ const CommonForm = () => {
             setErrors(newErrors);
             console.log(newErrors);
         }
+        const data = {
+ 
+
+    teamName:formData.teamName ,
+    captainSapId:localStorage.getItem('sapid'),
+    captainName: formData.captainName,
+    capgender: formData.capgender,
+    teamMembers: [
+        {
+            name: formData.teamMembers[0].name,
+            sapId: formData.teamMembers[0].sapId,
+            gender: formData.teamMembers[0].gender
+        },
+        {
+            name: formData.teamMembers[1].name,
+            sapId: formData.teamMembers[1].sapId,
+            gender: formData.teamMembers[1].gender
+        },
+        {
+            name: formData.teamMembers[2].name,
+            sapId: formData.teamMembers[2].sapId,
+            gender: formData.teamMembers[2].gender
+        },
+        {
+            name: formData.teamMembers[3].name,
+            sapId: formData.teamMembers[3].sapId,
+            gender: formData.teamMembers[3].gender
+        }
+    ],
+    location: formData.location,
+    sport: sport
+
+          };
+          fetch("http://localhost:8083/teams/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => {
+              console.log("sagar",response.status);
+              // if (!response.ok) {
+              //   throw new Error("Error occurred during sign-in.");
+              //   toast.error("Error occurred during sign-in")
+              // }
+               if(response.status===401){
+               toast.error("invalid crenditals")
+              }
+              // Parse the response as JSON
+              return response.json();
+            })
+            .then((data) => {
+              // Handle the response from your API
+              console.log("success");
+              toast.success("Registraion successfull ")
+              Navigate("/")
+              console.log(data);
+              // const { accessToken, refreshToken, user } = data;
+       
+              // Store tokens in localStorage or a secure storage solution
+           
+      
+              // localStorage.setItem('user', JSON.stringify(user));
+              // const refreshToken = data.refresh_token;
+       
+              // const accessToken = data.access_token;
+              // ... (do something with the tokens, e.g., store them in local storage, etc.)
+            })
+            .catch((error) => {
+              // Handle error
+              console.error("Sign-in  1error:", error);
+              if (error.response === 401) {
+                toast.error("Invalid Credentials")
+              }
+              // You can set an error state here to display an error message to the user
+            });
     };
 
     const commonSchema = {
@@ -144,6 +227,7 @@ validationSchema = Yup.object().shape(commonSchema);
     }
 
     return (
+        <div className='cform'>
         <div className="card">
             <div className="card2">
 
@@ -266,7 +350,7 @@ validationSchema = Yup.object().shape(commonSchema);
                 
 
                 <button className="form--submit" type="submit">Submit</button>
-                <a onClick={handleModal} >t&C</a>
+                <a onClick={handleModal} >T&C</a>
             </form >
         </div >
       
@@ -285,8 +369,12 @@ validationSchema = Yup.object().shape(commonSchema);
               X
             </button>
           </div>
+          
+
         </div>
       )}
+      <ToastContainer />
+        </div>
         </div>
     );
 };

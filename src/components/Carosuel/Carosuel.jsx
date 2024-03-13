@@ -51,18 +51,38 @@ const Carosuel = () => {
   const handleClick = (sports) => {
     console.log("sports", sports);
     if (sports === "chess" || sports === "tabletennis" || sports === "tennis") {
-
-      console.log("Logging sport:", sports);
-      toast.success('Registeration successful!', {
-        position: "top-center",
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+  
+      if (accessToken) {
+        const name = localStorage.getItem("name");
+        const sapid = localStorage.getItem("sapid");
+  
+        console.log("Logging sport:", sports, name, sapid);
+        toast.success("Registration successful!", {
+          position: "top-center",
           autoClose: 3000,
-      })
+        });
+      } else {
+        // Navigate to the login page
+        navigate("/Login");
+      }
     } else {
-      // Navigate to form for other sports
-      setSelectedSport(sports);
-      navigate(`/form/${sports}`);
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+  
+      if (accessToken) {
+        // Navigate to the form for other sports
+        setSelectedSport(sports);
+        navigate(`/form/${sports}`);
+      } else {
+        // Navigate to the login page
+        navigate("/Login");
+      }
     }
   };
+  
+  
   
   return (
     <div >
@@ -97,32 +117,32 @@ const data = [
   {
     name: `Cricket`,
     img: `https://images.pexels.com/photos/3800517/pexels-photo-3800517.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `10 march 2024`
+    review: `26 march 2024`
   },
   {
     name: `BasketBall`,
     img: `https://images.pexels.com/photos/2116469/pexels-photo-2116469.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `11 march 2024`
+    review: `27 march 2024`
   },
   {
     name: `Football`,
     img: `https://images.pexels.com/photos/264312/pexels-photo-264312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
-    review: `12 march 2024`
+    review: `28 march 2024`
   },
   {
     name: `tennis`,
     img: `https://images.pexels.com/photos/3207474/pexels-photo-3207474.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `13 March 2024`
+    review: `29 March 2024`
   },
   {
     name: `chess`,
     img: `https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `14 march 2024`
+    review: `30 march 2024`
   },
   {
     name: `tabletennis`,
     img: `https://images.pexels.com/photos/18511482/pexels-photo-18511482/free-photo-of-ping-pong-ball-and-rackets.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `15 march 2024`
+    review: `31 march 2024`
   },
 ];
 

@@ -9,12 +9,14 @@ import SignUp from './pages/SignUp/SignUp.jsx';
 import LoginForm from './pages/Login/Login.jsx';
 import Admin from './pages/Admin/Admin.jsx';
 import LeaderBoard from './pages/Leader/LeaderBoard.jsx'
+import AuthProvider from './components/AuthProvider/AuthProvider.jsx';
 
 
 
 const App = () => {
   return (
     <div className="App">
+    <AuthProvider>
     <Navbar />
   
     <Routes>
@@ -31,7 +33,7 @@ const App = () => {
   <Footer />
 
   
-  
+  </AuthProvider>
   </div>
   )
 }

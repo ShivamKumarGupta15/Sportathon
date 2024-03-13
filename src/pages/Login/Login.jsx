@@ -1,43 +1,46 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Login/Login.css";
-import {axios} from "react";
-// import {navigate} from "react";
+import { axios } from "react";
+import { navigate } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
- 
- 
+
+
 const LoginForm = () => {
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+ const navigate = useNavigate()
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-     
  
   const refreshAccessToken = async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem("refreshToken");
     const data = {
-      token: refreshToken
+      token: refreshToken,
     };
-  
+ 
     try {
-      const response = await fetch('http://localhost:8081/api/v1/auth/refresh', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-  
+      const response = await fetch(
+        "http://localhost:8081/api/v1/auth/refresh",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+ 
       if (response.ok) {
         const responseData = await response.json(); // Parse JSON response
         const accessToken = responseData.accessToken; // Access accessToken from parsed response
-        console.log(responseData);
-        localStorage.setItem('accessToken', accessToken); // Store new accessToken
+        localStorage.setItem("accessToken", accessToken); // Store new accessToken
         return true;
       } else {
         console.log("error");
@@ -47,18 +50,15 @@ const LoginForm = () => {
       console.log(error);
       return false;
     }
-  }
-  
- 
- 
+  };
  
   const isAccessTokenExpired = () => {
     return true;
-  }
-    // const accessToken = localStorage.getItem('accessToken');
-    // if (accessToken) {
-    //   return true; // No token available, consider it expired
-    // }
+  };
+  // const accessToken = localStorage.getItem('accessToken');
+  // if (accessToken) {
+  //   return true; // No token available, consider it expired
+  // }
  
   //   // // Decode the JWT token to get expiration time
   //   // const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
@@ -86,13 +86,13 @@ const LoginForm = () => {
   }, []);
  
   const handleSignIn = () => {
-    console.log(email,password)
+    console.log(email, password);
     const errors = {};
     if (!email) {
       errors.email = "Email is required.";
-    } else if(!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)){
-       errors.email="Enter valid email address"
-     }
+    } else if (!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)) {
+      errors.email = "Enter valid email address";
+    }
  
     if (!password) {
       errors.password = "Password is required.";
@@ -100,21 +100,25 @@ const LoginForm = () => {
  
     setErrors(errors);
  
- 
-   const data={
-    email: email,
-    password:password,
-   }
-   fetch('http://localhost:8081/api/v1/auth/signin', {
-      method: 'POST',
+    const data = {
+      email: email,
+      password: password,
+    };
+    fetch("http://localhost:8081/api/v1/auth/signin", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error occurred during sign-in.');
+        console.log("sagar",response.status);
+        // if (!response.ok) {
+        //   throw new Error("Error occurred during sign-in.");
+        //   toast.error("Error occurred during sign-in")
+        // }
+         if(response.status===401){
+         toast.error("invalid crenditals")
         }
         // Parse the response as JSON
         return response.json();
@@ -122,21 +126,18 @@ const LoginForm = () => {
       .then((data) => {
         // Handle the response from your API
         console.log("success");
+        toast.success("Login Successfull")
+        navigate("/")
         console.log(data);
-        console.log(data.role);
-        if (data.role === "ADMIN") {
-          // Navigate to admin page
-          navigate("/Admin");
-        } else {
-          navigate("/LandingPage")
-          // Navigate to another page or perform other actions
-        }
         // const { accessToken, refreshToken, user } = data;
  
-      // Store tokens in localStorage or a secure storage solution
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-      // localStorage.setItem('user', JSON.stringify(user));
+        // Store tokens in localStorage or a secure storage solution
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("name", data.name)
+        localStorage.setItem("sapid", data.sapid)
+
+        // localStorage.setItem('user', JSON.stringify(user));
         // const refreshToken = data.refresh_token;
  
         // const accessToken = data.access_token;
@@ -144,16 +145,21 @@ const LoginForm = () => {
       })
       .catch((error) => {
         // Handle error
-        console.error('Sign-in error:', error);
+        console.error("Sign-in  1error:", error);
+        if (error.response === 401) {
+          toast.error("Invalid Credentials")
+        }
         // You can set an error state here to display an error message to the user
       });
-                             
-   
-     }
+  };
+  const handlesignup = () => {
+    navigate("/SignUp")
+  }
  
   return (
     <div className="form">
-    <div class="heading">Login</div><br></br>
+      <div className="heading">Login</div>
+      <br></br>
       <div className="flex-column">
         <label>
           Email <span className="required">*</span>
@@ -209,16 +215,18 @@ const LoginForm = () => {
       </div>
       {errors.password && <p className="error">{errors.password}</p>}
       <div>
-        <button class="button-submit" onClick={handleSignIn}>
+        <button className="button-submit" onClick={handleSignIn}>
           Sign In
         </button>
-       
-        <p class="p">
-          Don't have an account? <span class="span">Sign Up</span>
+ 
+        <p className="p">
+          Don't have an account? <span className="span" onClick={handlesignup}>Sign Up</span>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };
  
 export default LoginForm;
+ 

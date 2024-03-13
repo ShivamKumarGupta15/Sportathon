@@ -11,18 +11,20 @@
   align-items: center;
   margin-left: 2%;
 }
-@keyframes slide{
-  from {
-    transform: translateX(0);
+@keyframes slideWords {
+  0% {
+    transform: translateX(-100%); /* Start from original position */
   }
-  to {
-    transform: translateX(50%);
+  20% {
+    transform: translateX(0%); /* Slide the first word out */
   }
+  
 }
 .logo {
   width: 65px; 
   height: 65px; 
   margin-right: 0.5vw;
+  
  
 }
 /* .navbar-left{
@@ -37,10 +39,15 @@
   font-weight: bold;
   color: #1a1a1b;
   text-decoration: none;
-  /* animation: 1s slide infinite linear; */
+  animation: slideWords 3s linear infinite; 
 }
 .s{
 font-family:cursive
+}
+
+.profile{
+  color: #050505;
+  font-weight: bold;
 }
 
 .navbar-right .btn {

@@ -14,7 +14,7 @@ const SwiperCarosuel = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 300,
+    speed: 200,
     slidesToShow: 2, 
     slidesToScroll: 1,
     autoplay: true,

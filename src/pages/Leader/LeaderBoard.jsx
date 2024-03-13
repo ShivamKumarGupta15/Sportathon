@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -22,54 +25,119 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const LeaderBoard = () => {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedSport, setSelectedSport] = useState("All");
 
-const rows = [
-  createData("Mumbai Indians", 159, 6.0, 24, 4.0),
-  createData("Royal Challenger Banglore", 237, 9.0, 37, 4.3),
-  createData("Chennai Superkings", 262, 16.0, 24, 6.0),
-  createData("GT", 305, 3.7, 67, 4.3),
-  createData("LSGS", 356, 16.0, 49, 3.9),
-];
+  useEffect(() => {
+    fetchLeaderboardData();
+  }, []);
 
-export default function LeaderBoard() {
+  const fetchLeaderboardData = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/performance/getPer");
+      if (!response.ok) {
+        throw new Error("Failed to fetch leaderboard data");
+      }
+      const data = await response.json();
+      setLeaderboardData(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching leaderboard data:", error);
+      setLoading(false);
+    }
+  };
+
+  const handleSportChange = (event) => {
+    setSelectedSport(event.target.value);
+  };
+
+  const filteredData = selectedSport === "All" ? leaderboardData : leaderboardData.filter((row) => row.sportName === selectedSport);
+
   return (
     <>
       <h3 className="titles">Leader Board</h3>
+      <RadioGroup
+        row
+        aria-label="sport"
+        name="sport"
+        value={selectedSport}
+        onChange={handleSportChange}
+      >
+        <FormControlLabel
+          value="All"
+          control={<Radio />}
+          label="All"
+        />
+        <FormControlLabel
+          value="Football"
+          control={<Radio />}
+          label="Football"
+        />
+        <FormControlLabel
+          value="Cricket"
+          control={<Radio />}
+          label="Cricket"
+        />
+        <FormControlLabel
+          value="chess"
+          control={<Radio />}
+          label="Chess"
+        />
+        <FormControlLabel
+          value="BasketBall"
+          control={<Radio />}
+          label="BasketBall"
+        />
+        <FormControlLabel
+          value="tennis"
+          control={<Radio />}
+          label="tennis"
+        />
+        <FormControlLabel
+          value="tabletennis"
+          control={<Radio />}
+          label="tabletennis"
+        />
+      </RadioGroup>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Team Id</StyledTableCell>
-              <StyledTableCell align="right">Team Name</StyledTableCell>
-              <StyledTableCell align="right">Sport Name&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Rank&nbsp;(g)</StyledTableCell>
-              {/* <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
+              <StyledTableCell>Team Name</StyledTableCell>
+              <StyledTableCell align="right">Sport Name</StyledTableCell>
+              <StyledTableCell align="right">Rank</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                {/* <StyledTableCell align="right">{row.protein}</StyledTableCell> */}
-              </StyledTableRow>
-            ))}
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={3} align="center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredData.map((row) => (
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.teamName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.sportName}</StyledTableCell>
+                  <StyledTableCell align="right">{row.sportRank}</StyledTableCell>
+                </StyledTableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>
     </>
   );
-}
+};
+
+export default LeaderBoard;
