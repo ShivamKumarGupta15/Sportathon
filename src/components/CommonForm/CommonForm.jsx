@@ -58,7 +58,8 @@ const CommonForm = () => {
 
     teamName:formData.teamName ,
     captainSapId:localStorage.getItem('sapid'),
-    captainName: formData.captainName,
+    captainName:localStorage.getItem('name'),
+    // captainName: formData.captainName,
     capgender: formData.capgender,
     teamMembers: [
         {
@@ -99,8 +100,8 @@ const CommonForm = () => {
               //   throw new Error("Error occurred during sign-in.");
               //   toast.error("Error occurred during sign-in")
               // }
-               if(response.status===401){
-               toast.error("invalid crenditals")
+               if(response.status===400){
+               toast.error("Already Registered")
               }
               // Parse the response as JSON
               return response.json();
@@ -108,7 +109,7 @@ const CommonForm = () => {
             .then((data) => {
               // Handle the response from your API
               console.log("success");
-              toast.success("Registraion successfull ")
+              toast.success("Registraion successfull1 ")
               Navigate("/")
               console.log(data);
               // const { accessToken, refreshToken, user } = data;
@@ -124,18 +125,19 @@ const CommonForm = () => {
             })
             .catch((error) => {
               // Handle error
-              console.error("Sign-in  1error:", error);
+              console.error("Sign-in  2error:", error);
               if (error.response === 401) {
-                toast.error("Invalid Credentials")
+                toast.error("Already Registered")
               }
               // You can set an error state here to display an error message to the user
             });
     };
+    // 
 
     const commonSchema = {
 
         teamName: Yup.string().required("Team name is required"),
-        captainName: Yup.string().required("Captain name is required"),
+        // captainName: Yup.string().required("Captain name is required"),
         capgender: Yup.string().required("Captain-Gender is required"),
         teamMembers: Yup.array().of(
             Yup.object().shape({
@@ -243,7 +245,7 @@ validationSchema = Yup.object().shape(commonSchema);
                 <div className="form-group">
                     <label className='lbl'>Captain Name:</label>
                     <br />
-                    <input type='text' value={formData.captainName} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input'/>
+                    <input type='text' value={localStorage.getItem('name')} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input'/>
                     {errors.captainName && <div className="error">{errors.captainName}</div>}
                 </div>
 
