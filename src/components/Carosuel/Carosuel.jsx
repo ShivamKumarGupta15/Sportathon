@@ -160,11 +160,7 @@ const Carosuel = () => {
                 <p className="name">{d.name}</p>
                 <p className="review">{d.review}</p>
                 <button className='read-more' onClick={()=>handleClick(d.name)}  > Participate</button>
-                {/* <p>
-                if (sports === "chess" || sports === "tabletennis" || sports === "tennis") {
-
-                }
-                </p> */}
+            
               </div>
              
             </div>
