@@ -1,15 +1,17 @@
 
+ 
 import React, { useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import './CommonForm.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 import * as Yup from "yup"
 const CommonForm = () => {
     const { sport } = useParams();
     const[ memberDetails, SetmemberDetails]=useState(false)
     const[modal, setModal]=useState(false)
+    const navigate=useNavigate()
     const [formData, setFormData] = useState({
         teamName: "",
         captainName: "",
@@ -23,11 +25,11 @@ const CommonForm = () => {
         ],
         location: "",
     });
-
+ 
     const [errors, setErrors] = useState({})
     const handleSubmit = async (e) => {
-
-
+ 
+ 
         e.preventDefault();
         console.log("Errors:", errors);
         if (!memberDetails) {
@@ -35,27 +37,27 @@ const CommonForm = () => {
             setErrors({ teamMembers: "Team member details are mandatory" });
             return; // Prevent form submission
         }
-
-
+ 
+ 
         try {
             await validationSchema.validate(formData, { abortEarly: false });
             const finalvalue = { ...formData, sport }
             console.log("Form Submitted", finalvalue);
             setErrors({})
-
+ 
         } catch (error) {
             const newErrors = {};
-
+ 
             error.inner.forEach((err) => {
                 newErrors[err.path] = err.message;
             });
-
+ 
             setErrors(newErrors);
             console.log(newErrors);
         }
         const data = {
  
-
+ 
     teamName:formData.teamName ,
     captainSapId:localStorage.getItem('sapid'),
     captainName:localStorage.getItem('name'),
@@ -85,7 +87,7 @@ const CommonForm = () => {
     ],
     location: formData.location,
     sport: sport
-
+ 
           };
           fetch("http://localhost:8083/teams/create", {
             method: "POST",
@@ -95,28 +97,40 @@ const CommonForm = () => {
             body: JSON.stringify(data),
           })
             .then((response) => {
-              console.log("sagar",response.status);
-              // if (!response.ok) {
-              //   throw new Error("Error occurred during sign-in.");
-              //   toast.error("Error occurred during sign-in")
-              // }
-               if(response.status===400){
-               toast.error("Already Registered")
-              }
+                if(response.status===409){
+                    toast("Already Registered")
+                    console.log("Already Registered",response.status)
+                  }
+                  if(response.status===401){
+                    // toast("Please Login")
+                    console.log("Invalid Status",response.status)
+                  }
+                  if(response.status===400){
+                    toast("Please Fill all Fields")
+                    console.log("Please Fill all Fields ",response.status)
+                  }
+                  if(response.status===200){
+                    // toast("Registeration Successfull ")
+                    console.log("Registeration Successfull",response.status)
+                  }
               // Parse the response as JSON
               return response.json();
             })
             .then((data) => {
               // Handle the response from your API
               console.log("success");
-              toast.success("Registraion successfull1 ")
-              Navigate("/")
+              toast.success("Registraion successfull ")
+              setTimeout(() => {
+                navigate("/")
               console.log(data);
+            }, 2000);
+            //   navigate("/")
+            //   console.log(data);
               // const { accessToken, refreshToken, user } = data;
        
               // Store tokens in localStorage or a secure storage solution
            
-      
+     
               // localStorage.setItem('user', JSON.stringify(user));
               // const refreshToken = data.refresh_token;
        
@@ -132,10 +146,10 @@ const CommonForm = () => {
               // You can set an error state here to display an error message to the user
             });
     };
-    // 
-
+    //
+ 
     const commonSchema = {
-
+ 
         teamName: Yup.string().required("Team name is required"),
         // captainName: Yup.string().required("Captain name is required"),
         capgender: Yup.string().required("Captain-Gender is required"),
@@ -153,10 +167,10 @@ const CommonForm = () => {
             })
         ),
         location: Yup.string().required("Location is required"),
-
+ 
     };
     let validationSchema;
-    
+   
   commonSchema.teamMembers = commonSchema.teamMembers.test({
     test: function (value) {
         const atLeastOneFemale = value.filter(member => member.gender === 'female').length > 0;
@@ -164,23 +178,23 @@ const CommonForm = () => {
     },
     message: 'At least one team member must be female',
 });
-
-
+ 
+ 
 validationSchema = Yup.object().shape(commonSchema);
-
-
-
-
+ 
+ 
+ 
+ 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
         });
-
+ 
     };
-
-
+ 
+ 
     const handleTeamMemberNameChange = (event, index) => {
         const { value } = event.target;
         const updatedTeamMembers = [...formData.teamMembers];
@@ -200,8 +214,8 @@ validationSchema = Yup.object().shape(commonSchema);
         });
         console.log(formData);
     };
-
-
+ 
+ 
     const handleTeamMemberSapIdChange = (event, index) => {
         const { value } = event.target;
         const updatedTeamMembers = [...formData.teamMembers];
@@ -222,17 +236,17 @@ validationSchema = Yup.object().shape(commonSchema);
     const handleTeamDetails=()=>{
         SetmemberDetails(!memberDetails)
         setErrors({})
-      
+     
     }
     const handleModal=()=>{
         setModal(!modal)
     }
-
+ 
     return (
         <div className='cform'>
         <div className="card">
             <div className="card2">
-
+ 
             <form className="form1" onSubmit={handleSubmit}>
                 <h1 className="signup">{sport}</h1>
                 <div className="form-group">
@@ -241,14 +255,14 @@ validationSchema = Yup.object().shape(commonSchema);
                     <input type='text' value={formData.teamName} onChange={handleChange} name='teamName' placeholder='Team Name' className='Sport-input' />
                     {errors.teamName && <div className="error">{errors.teamName}</div>}
                 </div>
-
+ 
                 <div className="form-group">
                     <label className='lbl'>Captain Name:</label>
                     <br />
-                    <input type='text' value={localStorage.getItem('name')} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input'/>
+                    <input type='text' value={localStorage.getItem('name')} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input' disabled={true}/ >
                     {errors.captainName && <div className="error">{errors.captainName}</div>}
                 </div>
-
+ 
                 {/* <div className="form-group">
                     <label className='lbl'>Captain SAP ID:</label>
                     <br />
@@ -273,10 +287,10 @@ validationSchema = Yup.object().shape(commonSchema);
                             <span className='gender' >other</span>
                            
                         </label>
-                      
+                     
                     </div>
                     {errors && errors.capgender && <div className="error">{errors.capgender}</div>}
-
+ 
                 </div>
                 <br/>
                 <div className='form-group'>
@@ -286,15 +300,15 @@ validationSchema = Yup.object().shape(commonSchema);
                 <input  type='checkbox' onClick={handleTeamDetails}/>
                 </label>
                 </div>
-                
-              
+               
+             
                 {errors && errors.teamMembers && <div className="error">{errors.teamMembers}</div>}
                 {memberDetails &&  <><div className="form-group">
                
                 <label className='lbl'>Team Members:</label>
                 </div>
                 <div className="team-members-grid">
-                
+               
                     {formData?.teamMembers?.map((member, index) => (
                         <div key={index} className='team-member'>
                            
@@ -303,16 +317,16 @@ validationSchema = Yup.object().shape(commonSchema);
                             {errors && errors[`teamMembers[${index}].name`] && <div className="error">{errors[`teamMembers[${index}].name`]}</div>}
                             <input type='number' value={member.sapId} onChange={(e) => handleTeamMemberSapIdChange(e, index)} name={`teamMembers[${index}].sapId`} placeholder={'sapId'} className='Sport-input'/>
                             {errors && errors[`teamMembers[${index}].sapId`] && <div className="error">{errors[`teamMembers[${index}].sapId`]}</div>}
-                            
+                           
                             <div className="mydict">
                                 {/* <label className='lbl'> Team Member's Gender:</label> */}
                                 <div className='form-group'>
                                     <label>
                                         <input type="radio" value="male" name={`teamMembers[${index}].gender`} checked={member.gender === "male"} onChange={(e) => handleTeamMemberGenderChange(e, index)} />
                                         <span className='gender' >Male</span>
-
+ 
                                     </label>
-
+ 
                                     <label>
                                         <input type="radio" value="female" name={`teamMembers[${index}].gender`} checked={member.gender === "female"} onChange={(e) => handleTeamMemberGenderChange(e, index)} />
                                         <span className='gender' >Female</span>
@@ -324,18 +338,18 @@ validationSchema = Yup.object().shape(commonSchema);
                                     {errors && errors[`teamMembers[${index}].gender`] && <div className="error">{errors[`teamMembers[${index}].gender`]}</div>}
                                 </div>
                             </div>
-                          
+                         
                         </div>
                     ))}
                     {/* Display the error message for team members */}
                     {/* {errors && errors.teamMembers && typeof errors.teamMembers === 'string' && (
                        
                         <div className="error1">{errors.teamMembers}</div>
-                        
+                       
                     )} */}
-                </div> 
+                </div>
                 </> }
-                
+               
                 <div>
                         <label className='lbl'>Location:</label>
                         <br />
@@ -348,14 +362,14 @@ validationSchema = Yup.object().shape(commonSchema);
                         </select>
                         {errors.location && <div className="error">{errors.location}</div>}
                     </div>
-
-                
-
+ 
+               
+ 
                 <button className="form--submit" type="submit">Submit</button>
                 <a onClick={handleModal} >T&C</a>
             </form >
         </div >
-      
+     
         {modal && (
         <div className="modal-container">
           <div className="modal-content">
@@ -366,13 +380,13 @@ validationSchema = Yup.object().shape(commonSchema);
 </li>
             <li> Every team sport should have a maximum of five members</li>
           </ol>
-            
+           
             <button onClick={handleModal} className="modal-btn">
               X
             </button>
           </div>
-          
-
+         
+ 
         </div>
       )}
       <ToastContainer />
@@ -380,5 +394,5 @@ validationSchema = Yup.object().shape(commonSchema);
         </div>
     );
 };
-
+ 
 export default CommonForm;

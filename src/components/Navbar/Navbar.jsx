@@ -53,7 +53,7 @@ const Navbar = () => {
         <button className="btn">Sign Up</button>
       </div> */}
       <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
-        <span>{name}</span>
+        <span></span>
         <span></span>
         <span></span>
       </div>
@@ -63,7 +63,7 @@ const Navbar = () => {
         <button onClick={accessToken ? handleLogout : handleLogin} className="btn">{accessToken ? "Logout": "Login"}</button>
         {/* <Link to="/signup" className="btn">Sign Up</Link> */}
         {/* <button onClick={handleSign} className='btn'>SignUp</button> */}
-        <button onClick={handleAdmin} className='btn'>Admin</button>
+        {/* <button onClick={handleAdmin} className='btn'>Admin</button> */}
         <button onClick={handleLeaderB} className='btn'>LeaderBoard</button>
       </div>
 

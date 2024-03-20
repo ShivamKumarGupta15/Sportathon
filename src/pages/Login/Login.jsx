@@ -127,8 +127,15 @@ const LoginForm = () => {
         // Handle the response from your API
         console.log("success");
         toast.success("Login Successfull")
-        navigate("/")
-        console.log(data);
+        if(data.role=="ADMIN")
+        {
+          navigate("/Admin")
+        }
+        else{
+          navigate("/")
+        }
+        
+        console.log("dffffffffffffffffffffffffffffff",data);
         // const { accessToken, refreshToken, user } = data;
  
         // Store tokens in localStorage or a secure storage solution

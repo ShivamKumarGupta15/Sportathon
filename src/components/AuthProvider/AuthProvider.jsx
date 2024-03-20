@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
     };
  
     // Check and refresh token every 15 seconds (adjust as needed)
-    const intervalId = setInterval(checkAndRefreshToken, 15 * 1000);
+    const intervalId = setInterval(checkAndRefreshToken, 45 * 1000);
  
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);

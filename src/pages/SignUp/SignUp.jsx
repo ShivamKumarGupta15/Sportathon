@@ -107,7 +107,11 @@ const SignUp = () => {
               autoClose: 3000,
           }
           )
-          navigate("/Login")
+          setTimeout(() => {
+            navigate("/Login")
+          console.log(data);
+        }, 2000);
+          // navigate("/Login")
         }
           // Handle successful response
           // e.g., show success message, redirect to another page, etc.
