@@ -55,20 +55,7 @@ const LoginForm = () => {
   const isAccessTokenExpired = () => {
     return true;
   };
-  // const accessToken = localStorage.getItem('accessToken');
-  // if (accessToken) {
-  //   return true; // No token available, consider it expired
-  // }
- 
-  //   // // Decode the JWT token to get expiration time
-  //   // const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
-  //   // console.log(decodedToken);
-  //   // const expirationTime = decodedToken.exp * 5000; // Convert seconds to milliseconds
- 
-  //   // // Check if the token is expired
-  //   // return expirationTime < Date.now();
-  //   return true;
-  // };
+  
  
   // // useEffect to periodically check and refresh the token
   useEffect(() => {
@@ -144,11 +131,7 @@ const LoginForm = () => {
         localStorage.setItem("name", data.name)
         localStorage.setItem("sapid", data.sapid)
 
-        // localStorage.setItem('user', JSON.stringify(user));
-        // const refreshToken = data.refresh_token;
- 
-        // const accessToken = data.access_token;
-        // ... (do something with the tokens, e.g., store them in local storage, etc.)
+       
       })
       .catch((error) => {
         // Handle error

@@ -2,7 +2,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './Carosuel.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Services from "../OurServices/Services";
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,6 +19,43 @@ const Carosuel = () => {
 
   const [selectedSport, setSelectedSport] = useState(null);
   const navigate = useNavigate();
+  
+
+
+  const [individualRegistrationData, setIndividualRegistrationData] = useState([]);
+  const [teamRegistrationData, setTeamRegistrationData] = useState([]);
+  const [sapId,setSapId]=useState(localStorage.getItem("sapid"));
+
+  useEffect(() => {
+    // const sapid = localStorage.getItem('sapid');
+    // if (sapId) {
+      const individualApiUrl = `http://localhost:8083/registrations/data/${sapId}`;
+      const teamApiUrl = `http://localhost:8083/teams/captaindata/${sapId}`;
+
+      fetch(individualApiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data of individual", data);
+          setIndividualRegistrationData(data.Individual_sport);
+        })
+        .catch((error) => {
+          console.error('Individual registration data error:', error);
+        });
+
+      fetch(teamApiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data of team", data);
+          setTeamRegistrationData(data.Team_sport);
+        })
+        .catch((error) => {
+          console.error('Team registration data error:', error);
+        });
+    // }
+    // const sapId=localStorage.getItem("sapid")
+  }, [sapId,individualRegistrationData,teamRegistrationData]);
+
+
 
   const settings = {
     dots: true,
@@ -68,7 +105,7 @@ const Carosuel = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`${localStorage.getItem("accessToken")}`
+          "Authorization": `${localStorage.getItem("accessToken")}`
         },
         body: JSON.stringify(athelete),
       })
@@ -77,40 +114,30 @@ const Carosuel = () => {
           // if (!response.ok) {
           //   throw new Error("Already Registered.1");
           // }
-          if(response.status===409){
+          if (response.status === 409) {
             toast("Already Registered")
-            console.log("Already Registered",response.status)
+            console.log("Already Registered", response.status)
           }
-          if(response.status===401){
+          if (response.status === 401) {
             // toast("Please Login")
-            console.log("Invalid Status",response.status)
+            console.log("Invalid Status", response.status)
           }
-          if(response.status===400){
+          if (response.status === 400) {
             toast("bad request ")
-            console.log("bad request",response.status)
+            console.log("bad request", response.status)
           }
-          if(response.status===201){
+          if (response.status === 201) {
             toast("Registeration Successfull ")
-            console.log("Registeration Successfull",response.status)
+            console.log("Registeration Successfull", response.status)
           }
 
           // Parse the response as JSON
           return response.json();
         })
-        // .then((athlete) => {
-        //   // Handle the response from your API
-        //   console.log("success");
-        //   toast.success("Registration successful");
-        //   navigate("/");
-        //   console.log(athlete);
-        // })
+        
         .catch((error) => {
           console.error("Registration error:", error);
-          // if (error.response && error.response.status === 409) {
-          //   toast.error("Already Registered56");
-          // } else {
-          //   toast.error("Already Registered78");
-          // }
+          
         });
 
 
@@ -140,7 +167,12 @@ const Carosuel = () => {
     }
   };
 
-
+  
+  const isSportRegistered = (sport) => {
+    return (
+      individualRegistrationData.includes(sport) || teamRegistrationData.includes(sport)
+    );
+  };
 
   return (
     <div >
@@ -156,8 +188,12 @@ const Carosuel = () => {
                   <p className="name">{d.name}</p>
                   <p className="review">{d.review}</p>
                   <p className="review">{d.type}</p>
+                  {isSportRegistered(d.name) ? (
+                    <p className="already-registered">Already Registered</p>
+                  ) : (
 
-                  <button className='read-more' onClick={() => handleClick(d.name)}  > Participate</button>
+                    <button className='read-more' onClick={() => handleClick(d.name)}  > Participate</button>
+                  )}
 
                 </div>
 
@@ -178,37 +214,37 @@ const data = [
   {
     name: `Cricket`,
     img: cricket,
-    review: `29 march 2024`,
+    review: `19 April 2024`,
     type: `Team Sports`
   },
   {
     name: `BasketBall`,
     img: BasketBall,
-    review: `28 march 2024`,
+    review: `18 April 2024`,
     type: `Team Sports`
   },
   {
     name: `Football`,
     img: football,
-    review: `30 march 2024`,
+    review: `21 April 2024`,
     type: `Team Sports`
   },
   {
     name: `tennis`,
     img: tennis,
-    review: `31 March 2024`,
+    review: `23 April 2024`,
     type: `Individual Sports`
   },
   {
     name: `chess`,
     img: chess,
-    review: `1  April 2024`,
+    review: `25  April 2024`,
     type: `Individual Sports`
   },
   {
     name: `tabletennis`,
     img: tabletennis,
-    review: `2 April 2024`,
+    review: `28 April 2024`,
     type: `Individual Sports`
   },
 ];
