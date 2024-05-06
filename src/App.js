@@ -12,12 +12,12 @@ import LeaderBoard from './pages/Leader/LeaderBoard.jsx'
 import AuthProvider from './components/AuthProvider/AuthProvider.jsx';
 
 
-
 const App = () => {
   return (
     <div className="App">
     <AuthProvider>
     <Navbar />
+   
   
     <Routes>
       <Route path="/" element={<LandingPage />} />

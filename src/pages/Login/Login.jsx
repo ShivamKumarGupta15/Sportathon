@@ -55,22 +55,8 @@ const LoginForm = () => {
   const isAccessTokenExpired = () => {
     return true;
   };
-  // const accessToken = localStorage.getItem('accessToken');
-  // if (accessToken) {
-  //   return true; // No token available, consider it expired
-  // }
+  
  
-  //   // // Decode the JWT token to get expiration time
-  //   // const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
-  //   // console.log(decodedToken);
-  //   // const expirationTime = decodedToken.exp * 5000; // Convert seconds to milliseconds
- 
-  //   // // Check if the token is expired
-  //   // return expirationTime < Date.now();
-  //   return true;
-  // };
- 
-  // // useEffect to periodically check and refresh the token
   useEffect(() => {
     const checkAndRefreshToken = async () => {
       if (isAccessTokenExpired()) {
@@ -113,10 +99,7 @@ const LoginForm = () => {
     })
       .then((response) => {
         console.log("sagar",response.status);
-        // if (!response.ok) {
-        //   throw new Error("Error occurred during sign-in.");
-        //   toast.error("Error occurred during sign-in")
-        // }
+     
          if(response.status===401){
          toast.error("invalid crenditals")
         }
@@ -129,7 +112,7 @@ const LoginForm = () => {
         toast.success("Login Successfull")
         navigate("/")
         console.log(data);
-        // const { accessToken, refreshToken, user } = data;
+      
  
         // Store tokens in localStorage or a secure storage solution
         localStorage.setItem("accessToken", data.accessToken);
@@ -137,11 +120,11 @@ const LoginForm = () => {
         localStorage.setItem("name", data.name)
         localStorage.setItem("sapid", data.sapid)
 
-        // localStorage.setItem('user', JSON.stringify(user));
-        // const refreshToken = data.refresh_token;
- 
-        // const accessToken = data.access_token;
-        // ... (do something with the tokens, e.g., store them in local storage, etc.)
+        if (data.role === "admin") {
+          navigate("/admin"); // Redirect to admin page
+        } else {
+          navigate("/"); // Redirect to landing page
+        }
       })
       .catch((error) => {
         // Handle error
@@ -149,13 +132,15 @@ const LoginForm = () => {
         if (error.response === 401) {
           toast.error("Invalid Credentials")
         }
-        // You can set an error state here to display an error message to the user
       });
   };
   const handlesignup = () => {
     navigate("/SignUp")
   }
  
+
+
+
   return (
     <div className="form">
       <div className="heading">Login</div>

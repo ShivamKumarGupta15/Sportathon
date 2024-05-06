@@ -96,10 +96,7 @@ const CommonForm = () => {
           })
             .then((response) => {
               console.log("sagar",response.status);
-              // if (!response.ok) {
-              //   throw new Error("Error occurred during sign-in.");
-              //   toast.error("Error occurred during sign-in")
-              // }
+           
                if(response.status===400){
                toast.error("Already Registered")
               }
@@ -112,22 +109,13 @@ const CommonForm = () => {
               toast.success("Registraion successfull1 ")
               Navigate("/")
               console.log(data);
-              // const { accessToken, refreshToken, user } = data;
-       
-              // Store tokens in localStorage or a secure storage solution
-           
-      
-              // localStorage.setItem('user', JSON.stringify(user));
-              // const refreshToken = data.refresh_token;
-       
-              // const accessToken = data.access_token;
-              // ... (do something with the tokens, e.g., store them in local storage, etc.)
+          
             })
             .catch((error) => {
               // Handle error
               console.error("Sign-in  2error:", error);
               if (error.response === 401) {
-                toast.error("Already Registered")
+                toast.error("Invalid Form")
               }
               // You can set an error state here to display an error message to the user
             });
@@ -245,16 +233,11 @@ validationSchema = Yup.object().shape(commonSchema);
                 <div className="form-group">
                     <label className='lbl'>Captain Name:</label>
                     <br />
-                    <input type='text' value={localStorage.getItem('name')} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input'/>
+                    <input type='text' value={localStorage.getItem('name')} onChange={handleChange} name='captainName' placeholder='Captain Name'  className='Sport-input'  disabled={true}/>
                     {errors.captainName && <div className="error">{errors.captainName}</div>}
                 </div>
 
-                {/* <div className="form-group">
-                    <label className='lbl'>Captain SAP ID:</label>
-                    <br />
-                    <input type='number' value={formData.captainSapId} onChange={handleChange} name='captainSapId' placeholder='Captain SAP ID' />
-                    {errors.captainSapId && <div className="error">{errors.captainSapId}</div>}
-                </div> */}
+         
                 <div className="mydict">
                     <div className='form-group'>
                     <label className='lbl'>Captain's Gender:</label>

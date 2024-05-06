@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import './Carosuel.css';
-import React,{ useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Services from "../OurServices/Services";
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Carosuel = () => {
 
   const [selectedSport, setSelectedSport] = useState(null);
+  const[registreredSports, setRegisteredSports]=useState([])
   const navigate = useNavigate(); 
 
   const settings = {
@@ -51,6 +52,7 @@ const Carosuel = () => {
   const handleClick = (sports) => {
     console.log("sports", sports);
     if (sports === "chess" || sports === "tabletennis" || sports === "tennis") {
+    
       // Check if the access token exists in localStorage
       const accessToken = localStorage.getItem("accessToken");
       const athelete  = {
@@ -68,6 +70,8 @@ const Carosuel = () => {
            
               .then(async (response) => {
                 if (!response.ok) {
+                  console.log("sak",response);
+                  setRegisteredSports(prev => [...prev, sports]);
                   throw new Error("Already Registered.");
                 }
                 // Parse the response as JSON
@@ -89,32 +93,7 @@ const Carosuel = () => {
                 }
               });
         
-                // .then((response) => {
-                //   console.log("sagar",response.status);
-                
-                //    if(response.status===400){
-                //    toast.error("Already Registered")
-                //   }
-                //   // Parse the response as JSON
-                //   return response.json();
-                // })
-                // .then((athelete) => {
-                //   // Handle the response from your API
-                //   console.log("success");
-                //   toast.success("Registraion successfull ")
-                //   navigate("/")
-                //   console.log(athelete);
-                
-                // })
-                // .catch((error) => {
-                 
-                //   console.error("Sign-in  1error:", error);
-                //   if (error.response === 400) {
-                //     toast.error("Already Registered2")
-                //   }
-                //   // You can set an error state here to display an error message to the user
-                // });
-        
+               
   
       if (accessToken) {
         const name = localStorage.getItem("name");
@@ -159,7 +138,8 @@ const Carosuel = () => {
               <div className='content-wrapper'>
                 <p className="name">{d.name}</p>
                 <p className="review">{d.review}</p>
-                <button className='read-more' onClick={()=>handleClick(d.name)}  > Participate</button>
+                <h3 className="review"> {d.SportsType}</h3>
+{    registreredSports.includes(d.name) ? (<h3>Already Registered</h3>)  :(        <button className='read-more' onClick={()=>handleClick(d.name)}  > Participate</button>)}
             
               </div>
              
@@ -180,32 +160,38 @@ const data = [
   {
     name: `Cricket`,
     img: `https://images.pexels.com/photos/3800517/pexels-photo-3800517.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `26 march 2024`
+    review: `26 march 2024`,
+    SportsType:`Team Sport`
   },
   {
     name: `BasketBall`,
     img: `https://images.pexels.com/photos/2116469/pexels-photo-2116469.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `27 march 2024`
+    review: `27 march 2024`,
+    SportsType:`Team Sport`
   },
   {
     name: `Football`,
     img: `https://images.pexels.com/photos/264312/pexels-photo-264312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
-    review: `28 march 2024`
+    review: `28 march 2024`,
+    SportsType:`Team Sport`
   },
   {
     name: `tennis`,
     img: `https://images.pexels.com/photos/3207474/pexels-photo-3207474.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `29 March 2024`
+    review: `29 March 2024`,
+    SportsType:`Individual`
   },
   {
     name: `chess`,
     img: `https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `30 march 2024`
+    review: `30 march 2024`,
+    SportsType:`Individual`
   },
   {
     name: `tabletennis`,
     img: `https://images.pexels.com/photos/18511482/pexels-photo-18511482/free-photo-of-ping-pong-ball-and-rackets.jpeg?auto=compress&cs=tinysrgb&w=800`,
-    review: `31 march 2024`
+    review: `31 march 2024`,
+    SportsType:`Individual Sports`
   },
 ];
 

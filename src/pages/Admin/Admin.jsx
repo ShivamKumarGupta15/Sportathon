@@ -71,22 +71,7 @@ const Admin = () => {
     setSelectedOption(event.target.value);
   };
 
-  // const handleDelete = (id) => {
-  //   fetch(`http://localhost:8083/teams/deleteteam/13`, {
-  //     method: 'DELETE'
-  //   })
-  //   .then(response => {
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const updatedData = data.filter(item => item.id !== id);
-  //     setData(updatedData);
-  //     console.log('Data deleted successfully');
-  //     fetchData();
-  //     window.location.reload();
-  //   })
-  //   .catch(error => console.error('Error deleting data:', error));
-  // };
+ 
 
   const handleDelete = (id) => {
     let apiUrl = "";
@@ -198,10 +183,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-
-
-
-
-
-
