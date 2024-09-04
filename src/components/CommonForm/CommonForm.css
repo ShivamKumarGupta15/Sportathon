@@ -128,11 +128,11 @@ input-group:hover .label, .input:focus {
   transition: 0.5s;
 }
 
-:focus {
+/* :focus {
   outline: 0;
   border-color: #2260ff;
   box-shadow: 0 0 0 4px #b5c9fc;
-}
+} */
 
 .mydict div {
   display: flex;

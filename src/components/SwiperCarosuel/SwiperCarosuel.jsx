@@ -3,6 +3,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './SwiperCarosuel.css';
 import React,{ useState } from 'react';
+import cricket from '../../Assets/pexels-patrick-case-3800517.jpg'
+import BasketBall from '../../Assets/pexels-img-števonka-2116469.jpg'
+import tennis from '../../Assets/pexels-cottonbro-studio-5739122 (1).jpg'
+import tabletennis from '../../Assets/table_tennis.png'
+import football from '../../Assets/pexels-alexander-nadrilyanski-3651672.jpg'
+import chess from '../../Assets/pexels-pixabay-260024.jpg'
  
 
 
@@ -77,32 +83,32 @@ const SwiperCarosuel = () => {
 const data = [
   {
     name: `Cricket`,
-    img: `https://images.pexels.com/photos/3800517/pexels-photo-3800517.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: cricket,
     review: `10 march 2024`
   },
   {
     name: `BasketBall`,
-    img: `https://images.pexels.com/photos/2116469/pexels-photo-2116469.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: BasketBall,
     review: `11 march 2024`
   },
   {
     name: `Football`,
-    img: `https://images.pexels.com/photos/264312/pexels-photo-264312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
+    img: football,
     review: `12 march 2024`
   },
   {
     name: `tennis`,
-    img: `https://images.pexels.com/photos/5739122/pexels-photo-5739122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
+    img: tennis,
     review: `13 March 2024`
   },
   {
     name: `chess`,
-    img: `https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: chess,
     review: `14 march 2024`
   },
   {
     name: `tabletennis`,
-    img: `https://images.pexels.com/photos/15534877/pexels-photo-15534877/free-photo-of-men-playing-table-tennis.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2`,
+    img: tabletennis,
     review: `15 march 2024`
   },
 ];

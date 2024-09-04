@@ -54,7 +54,11 @@ const Admin = () => {
       } else if (selectedOption === "Team Event") {
         apiUrl = "http://localhost:8083/teams";
       }
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl ,{
+        headers: {
+          'Authorization':`${localStorage.getItem("accessToken")}`
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -71,7 +75,11 @@ const Admin = () => {
     setSelectedOption(event.target.value);
   };
 
+<<<<<<< HEAD
  
+=======
+  
+>>>>>>> f7b4749b0e4bde69a27a1f9241fcc0785e50f1c7
 
   const handleDelete = (id) => {
     let apiUrl = "";
@@ -82,16 +90,23 @@ const Admin = () => {
     }
     
     fetch(apiUrl, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization':`${localStorage.getItem("accessToken")}`
+      },
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if(response.status===400){
+        console.log(response.status);
+        const updatedData = data.filter(item => item.id !== id);
+        setData(updatedData);
+        console.log('Data deleted successfully');
+     
       }
       const updatedData = data.filter(item => item.id !== id);
       setData(updatedData);
       console.log('Data deleted successfully');
-      toast.delete("Data deleted Successfully")
+      toast.info("Data deleted Successfully")
       
     })
     .catch(error => console.error('Error deleting data:', error));

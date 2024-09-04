@@ -57,6 +57,10 @@ const LoginForm = () => {
   };
   
  
+<<<<<<< HEAD
+=======
+  // // useEffect to periodically check and refresh the token
+>>>>>>> f7b4749b0e4bde69a27a1f9241fcc0785e50f1c7
   useEffect(() => {
     const checkAndRefreshToken = async () => {
       if (isAccessTokenExpired()) {
@@ -110,9 +114,22 @@ const LoginForm = () => {
         // Handle the response from your API
         console.log("success");
         toast.success("Login Successfull")
+<<<<<<< HEAD
         navigate("/")
         console.log(data);
       
+=======
+        if(data.role=="ADMIN")
+        {
+          navigate("/Admin")
+        }
+        else{
+          navigate("/")
+        }
+        
+        console.log("dffffffffffffffffffffffffffffff",data);
+        // const { accessToken, refreshToken, user } = data;
+>>>>>>> f7b4749b0e4bde69a27a1f9241fcc0785e50f1c7
  
         // Store tokens in localStorage or a secure storage solution
         localStorage.setItem("accessToken", data.accessToken);
@@ -120,11 +137,15 @@ const LoginForm = () => {
         localStorage.setItem("name", data.name)
         localStorage.setItem("sapid", data.sapid)
 
+<<<<<<< HEAD
         if (data.role === "admin") {
           navigate("/admin"); // Redirect to admin page
         } else {
           navigate("/"); // Redirect to landing page
         }
+=======
+       
+>>>>>>> f7b4749b0e4bde69a27a1f9241fcc0785e50f1c7
       })
       .catch((error) => {
         // Handle error

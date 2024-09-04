@@ -68,7 +68,9 @@
     font-weight: bold; 
   }
   
-  
+  .already-registered{
+    color: #0056b3;
+  }
   .read-more {
     background-color: #3D44ED; 
     color: #ffffff; 

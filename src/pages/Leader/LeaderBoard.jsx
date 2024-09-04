@@ -81,9 +81,9 @@ const LeaderBoard = () => {
           label="Football"
         />
         <FormControlLabel
-          value="Cricket"
+          value="cricket"
           control={<Radio />}
-          label="Cricket"
+          label="cricket"
         />
         <FormControlLabel
           value="chess"
